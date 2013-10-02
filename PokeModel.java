@@ -1,6 +1,7 @@
+import java.util.Observable;
 
-public class PokeModel {
 
-	PokeServer ps = new PokeServer();
-	
+public class PokeModel extends Observable
+{
+	ArrayList <PokeThread>
 }
