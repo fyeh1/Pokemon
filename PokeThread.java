@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
-public class ServerThread implements Runnable {
+public class PokeThread implements Runnable {
 
 	/** Username */
 	private String name;
@@ -40,14 +40,14 @@ public class ServerThread implements Runnable {
 	private ArrayList<PokeRoom> PokeRooms;
 
 	/** No empty account handlers */
-	private ServerThread() {
+	private PokeThread() {
 	}
 
 	/** Color of text */
 	private Color userTextColor = null;
 
 	/** Initializing */
-	public ServerThread(String name, String pass, Socket s, PokeServer server) {
+	public PokeThread(String name, String pass, Socket s, PokeServer server) {
 
 		messages = new ArrayList<String>();
 		PokeRooms = new ArrayList<PokeRoom>();

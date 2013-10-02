@@ -11,7 +11,7 @@ public class PokeServer {
 	private int port = 1214;
 
 	/** Map of usernames to accounts */
-	private HashMap<String, ServerThread> accounts;
+	private HashMap<String, PokeThread> accounts;
 
 	/** List of usernames */
 	private ArrayList<String> users;
@@ -36,7 +36,7 @@ public class PokeServer {
 	 * Close on error
 	 */
 	public PokeServer() {
-		accounts = new HashMap<String, ServerThread>();
+		accounts = new HashMap<String, PokeThread>();
 		users = new ArrayList<String>();
 
 		PokeRoom = new PokeRoom(this, "Temp Name");
@@ -79,7 +79,7 @@ public class PokeServer {
 				String username = "Guest" + " [" + assignNumber + "]";
 				assignNumber++;
 				users.add(username);
-				ServerThread userThread = new ServerThread(username, "", sock,
+				PokeThread userThread = new PokeThread(username, "", sock,
 						this);
 				accounts.put(username, userThread);
 
@@ -125,7 +125,7 @@ public class PokeServer {
 					+ ")");
 	}
 
-	public void remove(ServerThread st, String message) {
+	public void remove(PokeThread st, String message) {
 		this.remove(st.getAccName(), message);
 	}
 
@@ -134,14 +134,14 @@ public class PokeServer {
 	 *            username of account we need
 	 * @return AccountHandler with username name
 	 */
-	public ServerThread getAcct(String name) {
+	public PokeThread getAcct(String name) {
 		return accounts.get(name);
 	}
 
 	public void changeName(String original, String newname) {
 		users.remove(original);
 		users.add(newname);
-		ServerThread tempThread = accounts.get(original);
+		PokeThread tempThread = accounts.get(original);
 		accounts.remove(original);
 		accounts.put(newname, tempThread);
 	}
