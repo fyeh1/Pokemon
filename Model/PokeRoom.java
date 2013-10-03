@@ -1,4 +1,6 @@
+package Model;
 import java.util.ArrayList;
+
 
 public class PokeRoom {
 	/** Handle to the server controller class */
