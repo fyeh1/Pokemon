@@ -28,13 +28,13 @@ public class PokeRoom {
 	private PokeRoom() {
 	}
 
-	public PokeRoom(PokeServer server, String name) {
-		this.server = server;
+	public PokeRoom(Server server, String name) {
+		this.server = (PokeServer) server;
 		this.name = name;
 		users = new ArrayList<String>();
 	}
 
-	public PokeRoom(PokeServer server, String name, ArrayList<String> users) {
+	public PokeRoom(Server server, String name, ArrayList<String> users) {
 		this(server, name);
 		this.users = users;
 	}

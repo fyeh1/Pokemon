@@ -49,7 +49,7 @@ public class PokeThread implements Runnable {
 	private Color userTextColor = null;
 
 	/** Initializing */
-	public PokeThread(String name, String pass, Socket s, PokeServer server) {
+	public PokeThread(String name, String pass, Socket s, Server server) {
 
 		messages = new ArrayList<String>();
 		PokeRooms = new ArrayList<PokeRoom>();
@@ -57,7 +57,7 @@ public class PokeThread implements Runnable {
 		this.name = name;
 		this.pass = pass;
 		this.sock = s;
-		this.server = server;
+		this.server = (PokeServer) server;
 
 		System.out.println("Server has connected to " + name);
 

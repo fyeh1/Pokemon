@@ -6,7 +6,6 @@ import java.util.Observable;
 
 public class PokeModel extends Observable
 {
-	ArrayList <PokeThread> trainers = new ArrayList();
 	PokeServer server = new PokeServer();
 	int[][] map = new int[20][8];
 	static long counter = 0;
@@ -18,16 +17,21 @@ public class PokeModel extends Observable
 	
 	public void attack(int playerOneID, int playerTwoID, int pokemon, int move)
 	{
-		trainers.get(playerOneID).getTrainer().getPokemon(pokemon).getMove(move);
+		server.attack(playerOneID, playerTwoID, pokemon, move);
+	}
+	
+	public void hit(int playerOneID, int playerTwoID, int pokemon, int move)
+	{
+		server.hit(playerOneID, playerTwoID, pokemon, move);
 	}
 	
 	public void heal(int playerID)
 	{
-		
+		server.heal(playerID);
 	}
 	
 	public void move(int playerID)
 	{
-		
+		server.move(playerID);
 	}
 }
