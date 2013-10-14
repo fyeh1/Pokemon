@@ -20,13 +20,13 @@ public class Server {
 	/** Socket acceptor */
 	private ServerSocket socketAcceptor;
 
-	/** Max threads that are able to connect */
+	/** Max threads that are able to connect, not used */
 	private final static int MAX_THREADS = 2;
 
 	/** Pool of Threads */
 	private final ExecutorService pool;
 
-	/** Main PokeRoom - temp */
+	/** Main PokeRoom **/
 	private PokeRoom PokeRoom;
 
 	private int assignNumber = 1;
@@ -40,7 +40,7 @@ public class Server {
 		accounts = new HashMap<String, PokeThread>();
 		users = new ArrayList<String>();
 
-		PokeRoom = new PokeRoom(this, "Temp Name");
+		PokeRoom = new PokeRoom(this, "Main Room");
 
 		String data = "Testing.";
 		System.out.println("Initializing server.");
