@@ -1,4 +1,4 @@
-package Model;
+package Server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,15 +7,16 @@ import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class Server {
 
 	private int port = 1214;
 
 	/** Map of usernames to accounts */
-	private HashMap<String, PokeThread> accounts;
+	private HashMap<Integer, PokeThread> accounts;
 
 	/** List of usernames */
-	private ArrayList<String> users;
+	private ArrayList<Integer> users;
 
 	/** Socket acceptor */
 	private ServerSocket socketAcceptor;
@@ -37,8 +38,8 @@ public class Server {
 	 * Close on error
 	 */
 	public Server() {
-		accounts = new HashMap<String, PokeThread>();
-		users = new ArrayList<String>();
+		accounts = new HashMap<Integer, PokeThread>();
+		users = new ArrayList<Integer>();
 
 		PokeRoom = new PokeRoom(this, "Main Room");
 
@@ -77,26 +78,12 @@ public class Server {
 			try {
 				Socket sock = socketAcceptor.accept();
 
-				String username = "Guest" + " [" + assignNumber + "]";
+				PokeThread userThread = new PokeThread(assignNumber, "", sock, this);
+				accounts.put(assignNumber, userThread);
 				assignNumber++;
-				users.add(username);
-				PokeThread userThread = new PokeThread(username, "", sock, this);
-				accounts.put(username, userThread);
-
+				
 				userThread.addRoom(PokeRoom);
 
-				String num = " users";
-				if (users.size() == 1)
-					num = " user";
-
-				PokeRoom.sendTo(
-						"Welcome to the Three Musketeers' Chat Server! You are "
-								+ username + ". There are " + users.size()
-								+ num + " in the room.", username);
-				PokeRoom.sendTo(
-						"Functions: \n\tChange username: /nick + space + username \n\tDisconnect: /disconnect or /disconnect + space + message \n\tMurmur to someone: /murmur + space + username + message \n\tChange your background color: /color + color (red, blue, green, yellow, or gray) \n\tMessage the PokeRoom anonymously: /anon + message \n\tMessage the same thing multiple times: /mult + # + message \n\n",
-						username);
-				PokeRoom.sendToAll(username + " has connected.");
 				PokeRoom.sendToAll("/EnterSound");
 
 				pool.execute(userThread);
@@ -116,19 +103,10 @@ public class Server {
 	 * @param acct
 	 *            : Account, as AccountHandler
 	 */
-	public synchronized void remove(String acctName, String message) {
-		users.remove(acctName);
-		accounts.remove(acctName);
-		PokeRoom.removeUser(acctName);
-		if (message.equals(""))
-			PokeRoom.sendToAll(acctName + " has disconnected. ");
-		else
-			PokeRoom.sendToAll(acctName + " has disconnected. " + "(" + message
-					+ ")");
-	}
-
-	public void remove(PokeThread st, String message) {
-		this.remove(st.getAccName(), message);
+	public synchronized void remove(Integer acctID) {
+		users.remove(Integer.valueOf(acctID));
+		accounts.remove(Integer.valueOf(acctID));
+		PokeRoom.removeUser(Integer.valueOf(acctID));
 	}
 
 	/**
@@ -136,15 +114,7 @@ public class Server {
 	 *            username of account we need
 	 * @return AccountHandler with username name
 	 */
-	public PokeThread getAcct(String name) {
-		return accounts.get(name);
-	}
-
-	public void changeName(String original, String newname) {
-		users.remove(original);
-		users.add(newname);
-		PokeThread tempThread = accounts.get(original);
-		accounts.remove(original);
-		accounts.put(newname, tempThread);
+	public PokeThread getAcct(Integer ID) {
+		return accounts.get(ID);
 	}
 }

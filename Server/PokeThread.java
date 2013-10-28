@@ -1,4 +1,4 @@
-package Model;
+package Server;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -9,10 +9,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 
+
 public class PokeThread implements Runnable {
 
-	/** Username */
-	private String name;
+	/** Identification number */
+	private int ID;
 
 	/** Password */
 	private String pass;
@@ -49,17 +50,17 @@ public class PokeThread implements Runnable {
 	private Color userTextColor = null;
 
 	/** Initializing */
-	public PokeThread(String name, String pass, Socket s, Server server) {
+	public PokeThread(int ID, String pass, Socket s, Server server) {
 
 		messages = new ArrayList<String>();
 		PokeRooms = new ArrayList<PokeRoom>();
 		closed = false;
-		this.name = name;
+		this.ID = ID;
 		this.pass = pass;
 		this.sock = s;
 		this.server = (PokeServer) server;
 
-		System.out.println("Server has connected to " + name);
+		System.out.println("Server has connected to Trainer " + ID);
 
 		try {
 			output = new DataOutputStream(sock.getOutputStream());
@@ -128,7 +129,7 @@ public class PokeThread implements Runnable {
 			return;
 		}
 		try {
-			System.out.println("Sending " + name + " '" + data + "'");
+			System.out.println("Sending " + ID + " '" + data + "'");
 			output.writeBytes(data + "\n");
 		} catch (IOException e) {
 			System.out.println("Can't write bytes");
@@ -151,7 +152,7 @@ public class PokeThread implements Runnable {
 			PokeRooms.get(i).sendToAll("/LeaveSound");
 		}
 		try {
-			System.out.println("Closing socket to " + name);
+			System.out.println("Closing socket to " + ID);
 			output.close();
 			input.close();
 			sock.close();
@@ -173,18 +174,18 @@ public class PokeThread implements Runnable {
 	/** Add a PokeRoom, add this to the PokeRoom */
 	public void addRoom(PokeRoom room) {
 		PokeRooms.add(room);
-		room.addUser(name);
+		room.addUser(ID);
 	}
 
 	/** Remove a PokeRoom, remove this from room */
 	public void removeRoom(PokeRoom room) {
 		PokeRooms.remove(room);
-		room.removeUser(name);
+		room.removeUser(ID);
 	}
 
 	/** Accessor methods - get name, password, socket */
-	public String getAccName() {
-		return name;
+	public int getAccName() {
+		return ID;
 	}
 
 	public String getPass() {
@@ -197,6 +198,6 @@ public class PokeThread implements Runnable {
 
 	/** String representation */
 	public String toString() {
-		return name + ", " + pass;
+		return ID + ", " + pass;
 	}
 }

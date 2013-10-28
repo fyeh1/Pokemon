@@ -1,5 +1,6 @@
-package Model;
+package Server;
 import java.util.ArrayList;
+
 
 
 public class PokeRoom {
@@ -9,7 +10,7 @@ public class PokeRoom {
 	 * List of users in the chat room. This could have been a list of
 	 * AccountHandlers we will use String
 	 */
-	private ArrayList<String> users;
+	private ArrayList<Integer> users;
 	/** Chat room name */
 	private String name;
 	/** Chat room password - not used yet */
@@ -31,10 +32,10 @@ public class PokeRoom {
 	public PokeRoom(Server server, String name) {
 		this.server = (PokeServer) server;
 		this.name = name;
-		users = new ArrayList<String>();
+		users = new ArrayList<Integer>();
 	}
 
-	public PokeRoom(Server server, String name, ArrayList<String> users) {
+	public PokeRoom(Server server, String name, ArrayList<Integer> users) {
 		this(server, name);
 		this.users = users;
 	}
@@ -60,20 +61,20 @@ public class PokeRoom {
 	 * @param user
 	 *            : username to send to
 	 */
-	public void sendTo(String msg, String user) {
+	public void sendTo(String msg, Integer ID) {
 		server.getAcct(user).sendData(msg);
 	}
 
 	/**
 	 * Add a user to the list if it doesn't already exist
 	 * 
-	 * @param user
+	 * @param iD
 	 *            : username
 	 * @return true if added, false if already exists
 	 */
-	public boolean addUser(String user) {
-		if (!users.contains(user)) {
-			users.add(user);
+	public boolean addUser(Integer ID) {
+		if (!users.contains(ID)) {
+			users.add(ID);
 			return true;
 		}
 		return false;
@@ -82,16 +83,12 @@ public class PokeRoom {
 	/**
 	 * Remove a user from the list.
 	 * 
-	 * @param user
+	 * @param ID
 	 *            : username
 	 * @return true if removed, false if it did not exist
 	 */
-	public boolean removeUser(String user) {
-		return users.remove(user);
+	public boolean removeUser(Integer ID) {
+		return users.remove(Integer.valueOf(ID));
 	}
 
-	public void changeName(String original, String newname) {
-		removeUser(original);
-		addUser(newname);
-	}
 }
