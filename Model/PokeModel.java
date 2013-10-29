@@ -1,9 +1,28 @@
 package Model;
 
-import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Observable;
 
-import Server.PokeServer;
+import PokeNames.Backumon;
+import PokeNames.Botstop;
+import PokeNames.Boxtrot;
+import PokeNames.Chronosaur;
+import PokeNames.Continumon;
+import PokeNames.Diamacard;
+import PokeNames.Errormon;
+import PokeNames.Eyelingual;
+import PokeNames.Fieldgod;
+import PokeNames.Fleetle;
+import PokeNames.Handokua;
+import PokeNames.Huongel;
+import PokeNames.Meteorax;
+import PokeNames.Mushlop;
+import PokeNames.Nightrider;
+import PokeNames.Okami;
+import PokeNames.Pendragus;
+import PokeNames.Porchap;
+import PokeNames.Tiki;
+import PokeNames.Towl;
 
 public class PokeModel extends Observable {
 
@@ -13,7 +32,9 @@ public class PokeModel extends Observable {
 
 	int xCor;
 	int yCor;
-	int dir = 1; // 1 = East 2 = South 3 = West 4 = North
+	int dir = 3; // 1 = East 2 = South 3 = West 4 = North
+
+	ArrayList<Pokemon> allPokes = new ArrayList<Pokemon>();
 
 	Pokemon[] owned = new Pokemon[3];
 	int activePoke = 0; // the one pokemon currently active
@@ -21,99 +42,43 @@ public class PokeModel extends Observable {
 
 	boolean inBattle = false;
 
-	// socket for connection to chat server
-	private Socket socket;
+	public PokeModel() {
 
-	// for writing to and reading from the server
-	private Out out;
-	private In in;
+		map[16][6] = 3;
+		map[16][2] = 4;
 
-	public PokeModel(String hostName, String port) {
-
-		// connect to server
-		try {
-			socket = new Socket(hostName, Integer.parseInt(port));
-			out = new Out(socket);
-			in = new In(socket);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		xCor = 16;
+		yCor = 4;
+		map[xCor][yCor] = 1;
 
 	}
 
-	public void listen() {
-		String s;
-		while ((s = in.readLine()) != null) {
-			int[] command = Helper.separate(s);
-			if (command[1] == 0) {
-				sync();
-			} else if (command[1] == 1) {
-				challenge(command);
-			} else if (command[1] == 2) {
-				attack(command);
-			} else if (command[1] == 3) {
-				hit(command);
-			} else if (command[1] == 4) {
-				heal(command);
-			}
-		}
-		out.close();
-		in.close();
-		try {
-			socket.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		System.err.println("Closed client socket");
-	}
-
-	private void heal(int[] command) {
+	private boolean heal() {
+		if (useableDrug <= 0)
+			return false;
 		owned[activePoke].heal();
 		useableDrug--;
-		healAnimation(); //view stuff
+		return true;
+		// view stuff
 	}
 
-	private void hit(int[] command) {
-		owned[activePoke].hit(command[1]);
-		hitAnimation(); //view stuff
+	private synchronized void hit(int opponentID, int move) {
+		owned[activePoke].hit(opponentID, move);
+		// view stuff
 	}
 
-	private void attack(int[] command) {
-		attackAnimation(); //view stuff
+	private void attack() {
+		// view stuff
 	}
 
-	private void challenge(int[] command) {
-		enterBattle(); //view stuff
+	private void wildEncounter() {
+		// view stuff
 		inBattle = true;
-	}
-	
-	private void dodge(int[] command) {
-		dodgeAnimation(); //view stuff
+		allPokes.add(newWildPokemon());
 	}
 
-	public void challengeRequest() {
-		out.println("1," + xCor + "," + yCor + "," + dir);
-	}
-
-	public void attackRequest(int pokemon, int move) {
-		out.println("2," + pokemon + "," + move);
-	}
-
-	public void hitRequest(int pokemon, int move) {
-		out.println("3," + "," + pokemon + "," + move);
-	}
-
-	public void healRequest() {
-		if (useableDrug > 0)
-			out.println("4");
-		else {
-			rejectHeal();
-		}
-	}
-	
-	public void dodgeRequest() {
-		out.println("5");
+	private void dodge() {
+		// view stuff
 	}
 
 	public void move(int direction) {
@@ -137,13 +102,77 @@ public class PokeModel extends Observable {
 		}
 		xCor = xNew;
 		yCor = yNew;
-		out.println("5," + xCor + "," + yCor + "," + dir);
 	}
 
-	public void sync(int[][] serverMap) {
-		for (int x = 0; x < map.length; x++)
-			for (int y = 0; y < map[0].length; y++)
-				map[x][y] = serverMap[x][y];
+	public Pokemon newWildPokemon() {
+		
+		int lvlcurrent = owned[0].level+(int) (Math.random() * 2) - (int) (Math.random() * 2);
+		
+		int fac = (int) (Math.random() * 100);
+		int facInc = 5;
+		int facDet = fac;
 
+		//each pokemon has 5% chance to appear
+		
+		if (fac < 5)
+			return new Backumon(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 10
+			return new Botstop(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 15
+			return new Boxtrot(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 20
+			return new Chronosaur(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 25
+			return new Continumon(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 30
+			return new Diamacard(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 35
+			return new Errormon(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 40
+			return new Eyelingual(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 45
+			return new Fleetle(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 50
+			return new Handokua(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 55
+			return new Huongel(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 60
+			return new Meteorax(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 65
+			return new Mushlop(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 70
+			return new Nightrider(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 75
+			return new Okami(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 80
+			return new Pendragus(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 85
+			return new Porchap(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 90
+			return new Tiki(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 95
+			return new Towl(lvlcurrent);
+		facDet += facInc;
+		if (fac < facDet) // 100
+			return new Fieldgod(lvlcurrent+5);
+		return null;
 	}
 }

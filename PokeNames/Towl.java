@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Towl extends Pokemon
 {
-	public Towl()
-	{
-		super("Towl");
-	}
+	private static String name = "Towl";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(1);
-		super.atkUp(2);
-		super.defUp(1);
-		super.speUp(3);
+	protected static int hpIV = 10; // health IV
+	protected static int atkIV = 20; // attack IV
+	protected static int defIV = 10; // defense IV
+	protected static int speIV = 30; // speed IV
+
+	public Towl(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

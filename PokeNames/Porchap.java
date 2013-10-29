@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Porchap extends Pokemon
 {
-	public Porchap()
-	{
-		super("Porchap");
-	}
+	private static String name = "Porchap";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(1);
-		super.atkUp(1);
-		super.defUp(3);
-		super.speUp(2);
+	protected static int hpIV = 10; // health IV
+	protected static int atkIV = 10; // attack IV
+	protected static int defIV = 30; // defense IV
+	protected static int speIV = 20; // speed IV
+
+	public Porchap(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

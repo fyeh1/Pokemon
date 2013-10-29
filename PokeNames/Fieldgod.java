@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Fieldgod extends Pokemon
 {
-	public Fieldgod()
-	{
-		super("Fieldgod");
-	}
+	private static String name = "Fieldgod";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(3);
-		super.atkUp(3);
-		super.defUp(3);
-		super.speUp(3);
+	protected static int hpIV = 30; // health IV
+	protected static int atkIV = 30; // attack IV
+	protected static int defIV = 30; // defense IV
+	protected static int speIV = 30; // speed IV
+
+	public Fieldgod(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

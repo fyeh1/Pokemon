@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Huongel extends Pokemon
 {
-	public Huongel()
-	{
-		super("Huongel");
-	}
+	private static String name = "Huongel";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(3);
-		super.atkUp(1);
-		super.defUp(1);
-		super.speUp(2);
+	protected static int hpIV = 30; // health IV
+	protected static int atkIV = 10; // attack IV
+	protected static int defIV = 10; // defense IV
+	protected static int speIV = 20; // speed IV
+
+	public Huongel(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

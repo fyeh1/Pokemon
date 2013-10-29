@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Handokua extends Pokemon
 {
-	public Handokua()
-	{
-		super("Handokua");
-	}
+	private static String name = "Handokua";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(3);
-		super.atkUp(1);
-		super.defUp(2);
-		super.speUp(1);
+	protected static int hpIV = 30; // health IV
+	protected static int atkIV = 10; // attack IV
+	protected static int defIV = 20; // defense IV
+	protected static int speIV = 10; // speed IV
+
+	public Handokua(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

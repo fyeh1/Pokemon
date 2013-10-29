@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Nightrider extends Pokemon
 {
-	public Nightrider()
-	{
-		super("Nightrider");
-	}
+	private static String name = "Nightrider";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(1);
-		super.atkUp(3);
-		super.defUp(1);
-		super.speUp(2);
+	protected static int hpIV = 10; // health IV
+	protected static int atkIV = 30; // attack IV
+	protected static int defIV = 10; // defense IV
+	protected static int speIV = 20; // speed IV
+
+	public Nightrider(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

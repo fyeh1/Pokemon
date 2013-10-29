@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Mushlop extends Pokemon
 {
-	public Mushlop()
-	{
-		super("Mushlop");
-	}
+	private static String name = "Mushlop";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(1);
-		super.atkUp(3);
-		super.defUp(2);
-		super.speUp(1);
+	protected static int hpIV = 10; // health IV
+	protected static int atkIV = 30; // attack IV
+	protected static int defIV = 20; // defense IV
+	protected static int speIV = 10; // speed IV
+
+	public Mushlop(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

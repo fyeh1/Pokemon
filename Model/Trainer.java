@@ -9,7 +9,6 @@ public class Trainer
 	public Trainer()
 	{
 		pokemon = new ArrayList<Pokemon>(6);
-		pokemon.add(new Pokemon());
 	}
 	
 	public Pokemon getPokemon(int i)

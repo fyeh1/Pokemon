@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Pendragus extends Pokemon
 {
-	public Pendragus()
-	{
-		super("Pendragus");
-	}
+	private static String name = "Pendragus";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(1);
-		super.atkUp(2);
-		super.defUp(3);
-		super.speUp(1);
+	protected static int hpIV = 10; // health IV
+	protected static int atkIV = 20; // attack IV
+	protected static int defIV = 30; // defense IV
+	protected static int speIV = 10; // speed IV
+
+	public Pendragus(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }

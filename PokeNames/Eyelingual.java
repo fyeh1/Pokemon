@@ -4,17 +4,14 @@ import Model.Pokemon;
 
 public class Eyelingual extends Pokemon
 {
-	public Eyelingual()
-	{
-		super("Eyelingual");
-	}
+	private static String name = "Eyelingual";
 	
-	public void levelUp()
-	{
-		super.levelUp();
-		super.hpUp(2);
-		super.atkUp(1);
-		super.defUp(1);
-		super.speUp(2);
+	protected static int hpIV = 20; // health IV
+	protected static int atkIV = 10; // attack IV
+	protected static int defIV = 10; // defense IV
+	protected static int speIV = 20; // speed IV
+
+	public Eyelingual(int lvl) {
+		super(name, lvl, hpIV, atkIV, defIV, speIV);
 	}
 }
