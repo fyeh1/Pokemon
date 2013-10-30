@@ -27,6 +27,8 @@ public class PokeView extends JFrame implements Observer
 		battleScreen = new BattleScreen();
 		whiteScreen = new WhiteScreen();
 		mapMode();
+		revalidate();
+		repaint();
 	}
 	
 	public void mapMode()
