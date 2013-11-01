@@ -53,6 +53,10 @@ public class PokeModel extends Observable {
 
 	}
 
+	private void attack() {
+		// view stuff
+	}
+
 	private boolean heal() {
 		if (useableDrug <= 0)
 			return false;
@@ -63,22 +67,30 @@ public class PokeModel extends Observable {
 	}
 
 	private synchronized void hit(int opponentID, int move) {
-		owned[activePoke].hit(opponentID, move);
+		owned[activePoke].hit(allPokes.get(opponentID), move);
 		// view stuff
 	}
-
-	private void attack() {
-		// view stuff
+	
+	private boolean dodge(){
+		double chance = Math.random();
+		if(chance<0.5)
+			return true;
+		return false;
 	}
 
 	private void wildEncounter() {
 		// view stuff
-		inBattle = true;
+		initializeBattle();
 		allPokes.add(newWildPokemon());
 	}
 
-	private void dodge() {
-		// view stuff
+	private void initializeBattle() {
+		inBattle = true;
+
+	}
+
+	private void win() {
+		inBattle = false;
 	}
 
 	public void move(int direction) {
@@ -105,15 +117,16 @@ public class PokeModel extends Observable {
 	}
 
 	public Pokemon newWildPokemon() {
-		
-		int lvlcurrent = owned[0].level+(int) (Math.random() * 2) - (int) (Math.random() * 2);
-		
+
+		int lvlcurrent = owned[0].level + (int) (Math.random() * 2)
+				- (int) (Math.random() * 2);
+
 		int fac = (int) (Math.random() * 100);
 		int facInc = 5;
 		int facDet = fac;
 
-		//each pokemon has 5% chance to appear
-		
+		// each pokemon has 5% chance to appear
+
 		if (fac < 5)
 			return new Backumon(lvlcurrent);
 		facDet += facInc;
@@ -172,7 +185,7 @@ public class PokeModel extends Observable {
 			return new Towl(lvlcurrent);
 		facDet += facInc;
 		if (fac < facDet) // 100
-			return new Fieldgod(lvlcurrent+5);
+			return new Fieldgod(lvlcurrent + 5);
 		return null;
 	}
 }
