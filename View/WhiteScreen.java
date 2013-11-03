@@ -10,7 +10,7 @@ public class WhiteScreen extends JPanel
 	{
 		super();
 		dialoguePanel = new DialoguePanel();
-		dialoguePanel.msg("You ran out of usable Pokemon! You whited out!");
+		dialoguePanel.msg(1);
 		add(dialoguePanel);
 		
 	}
