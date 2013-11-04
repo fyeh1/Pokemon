@@ -12,6 +12,7 @@ public class WhiteScreen extends JPanel
 		dialoguePanel = new DialoguePanel();
 		dialoguePanel.msg(1);
 		add(dialoguePanel);
-		
+		revalidate();
+		repaint();
 	}
 }

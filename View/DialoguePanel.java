@@ -1,4 +1,7 @@
 package View;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -58,5 +61,10 @@ public class DialoguePanel extends JPanel
 		add(text);
 		revalidate();
 		repaint();
+	}
+	
+	public int getState()
+	{
+		return state;
 	}
 }
