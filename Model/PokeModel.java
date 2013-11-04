@@ -188,4 +188,40 @@ public class PokeModel extends Observable {
 			return new Fieldgod(lvlcurrent + 5);
 		return null;
 	}
+
+	public int action() {
+		if(inBattle == false)
+			return speak();
+		else
+			return 0;
+	}
+	
+	private int speak()
+	{
+		int xNew = xCor;
+		int yNew = yCor;
+			
+		if (dir == 1)
+			xNew++;
+		else if (dir == 2)
+			yNew--;
+		else if (dir == 3)
+			xNew--;
+		else if (dir == 4)
+			yNew++;
+		
+		if(xNew == 16 && yNew == 6)
+			return 1;
+		else if(xNew == 16 && yNew == 2)
+			return 2;
+		
+		return 0;
+	}
+
+	public int cancel() {
+		
+		
+		
+		return 0;
+	}
 }

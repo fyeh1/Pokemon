@@ -16,6 +16,8 @@ public class Pokemon {
 	protected int defcur; // current defense
 	protected int specur; // current speed
 
+	public int waitturn = 0;
+
 	protected Move moves = new Move();
 
 	protected int ID;
@@ -59,14 +61,60 @@ public class Pokemon {
 		hpcur = hp;
 	}
 
+	public void attack(Pokemon opponent, int move) {
+		int[] attributes = Move.select(move);
+
+		opponent.hit(this, move);
+
+		hpcur += attributes[3];
+		atkcur += attributes[4];
+		defcur += attributes[5];
+		specur += attributes[6];
+
+		waitturn += attributes[8]-1;
+	}
+
 	public boolean hit(Pokemon opponent, int move) {
 		int[] attributes = Move.select(move);
 		// calcs
+		int hit = attributes[7];
+		while (hit > 0) {
+			int damage = calcDam(opponent, attributes);
 
-		if (hpcur < 0) {
-			return false;
+			hpcur -= damage;
+
+			String message = name + " is hit by " + opponent.name + "'s "
+					+ Move.name(attributes[0]) + " for a damage of " + damage
+					+ "!";
+
+			System.out.println(message);
+			
+			hit --;
+
+			if (hpcur < 0) {
+				return false;
+			}
 		}
 		return true;
+	}
+
+	private int calcDam(Pokemon opponent, int[] attributes) {
+		int damage = 0;
+
+		double critC = (5 + attributes[2]) / 100.0;
+		boolean crit = Math.random() < critC;
+
+		double randomFac = Math.random() * 5 - 5;
+
+		if (!crit)
+			damage = (int) (((opponent.atkcur * (1 + attributes[1] / 10.0) - defcur)) * ((100 - randomFac) / 100));
+		else
+			damage = (int) (((opponent.atkcur * (1 + attributes[1] / 10.0) - def)) * ((100 - randomFac) / 100)) * 2;
+
+		if (damage < 0)
+			damage = 0;
+
+		return damage;
 	}
 
 	public static int assignID() {

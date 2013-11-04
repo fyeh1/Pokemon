@@ -20,7 +20,7 @@ public class Move {
 
 	private static void reset() {
 		name = "";
-		lvl = 0;
+		lvl = 0; 
 		atk = 0;
 		cc = 0;
 		hpC = 0;
@@ -92,6 +92,54 @@ public class Move {
 			reset();
 
 		return update();
+	}
+	
+	public static String name(int i)
+	{
+		if (i == 5)
+			return "Flail";
+		else if (i == 10)
+			return "Steel Bulk";
+		else if (i == 15)
+			return "Trauma Cannon";
+		else if (i == 20)
+			return "Spore Cannon";
+		else if (i == 25)
+			return "Crack Rock";
+		else if (i == 30)
+			return "Norturnal Screen";
+		else if (i == 35)
+			return "Fury Fire";
+		else if (i == 40)
+			return "Crouch Swipe";
+		else if (i == 42)
+			return "Blaze It";
+		else if (i == 45)
+			return "Field Blessing";
+		else if (i == 50)
+			return "Mary Jane";
+		else if (i == 55)
+			return "Google This";
+		else if (i == 60)
+			return "Time Capsule";
+		else if (i == 65)
+			return "Crayon Blast";
+		else if (i == 70)
+			return "Swipe Stakes";
+		else if (i == 75)
+			return "Hang Yang";
+		else if (i == 80)
+			return "Fright Train";
+		else if (i == 85)
+			return "God's Dimension";
+		else if (i == 90)
+			return "God's Rage";
+		else if (i == 95)
+			return "God's Disappointment";
+		else if (i == 100)
+			return "The Manfield";
+		else
+			return null;
 	}
 
 	private static void Flail() {
