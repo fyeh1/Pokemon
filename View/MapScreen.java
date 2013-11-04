@@ -11,10 +11,10 @@ public class MapScreen extends JPanel
 	{
 		super();
 		JPanel[][] map = new JPanel[][]
-				{{new JPanel(), new JPanel(), new JPanel(), new JPanel(), new JPanel()}, 
-				{new JPanel(), new MapPanel("images\\Grass.jpg"), new MapPanel("images\\Grass.jpg"), new JPanel(), new MapPanel("images\\Healer_Left")}, 
+				{{new MapPanel("images\\Player_Down.jpg"), new JPanel(), new JPanel(), new JPanel(), new JPanel()}, 
+				{new JPanel(), new MapPanel("images\\Grass.jpg"), new MapPanel("images\\Grass.jpg"), new JPanel(), new MapPanel("images\\Healer_Left.jpg")}, 
 				{new JPanel(), new MapPanel("images\\Grass.jpg"), new MapPanel("images\\Grass.jpg"), new JPanel(), new JPanel()}, 
-				{new JPanel(), new MapPanel("images\\Grass.jpg"), new MapPanel("images\\Grass.jpg"), new JPanel(), new MapPanel("images\\Trainer_Left")}, 
+				{new JPanel(), new MapPanel("images\\Grass.jpg"), new MapPanel("images\\Grass.jpg"), new JPanel(), new MapPanel("images\\Trainer_Left.jpg")}, 
 				{new JPanel(), new JPanel(), new JPanel(), new JPanel(), new JPanel()}};
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		JPanel p1 = new JPanel();
@@ -28,20 +28,20 @@ public class MapScreen extends JPanel
 		add(p4);
 		add(p5);
 		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-		for (int i=0; i<5; i++)
-			p1.add(map[0][i]);
+		for (int a=0; a<5; a++)
+			p1.add(map[a][0]);
 		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
-		for (int i=0; i<5; i++)
-			p2.add(map[1][i]);
+		for (int b=0; b<5; b++)
+			p2.add(map[b][1]);
 		p3.setLayout(new BoxLayout(p3, BoxLayout.Y_AXIS));
-		for (int i=0; i<5; i++)
-			p3.add(map[2][i]);
+		for (int c=0; c<5; c++)
+			p3.add(map[c][2]);
 		p4.setLayout(new BoxLayout(p4, BoxLayout.Y_AXIS));
-		for (int i=0; i<5; i++)
-			p4.add(map[3][i]);
+		for (int d=0; d<5; d++)
+			p4.add(map[d][3]);
 		p5.setLayout(new BoxLayout(p5, BoxLayout.Y_AXIS));
-		for (int i=0; i<5; i++)
-			p5.add(map[4][i]);
+		for (int e=0; e<5; e++)
+			p5.add(map[e][4]);
 		/*JPanel[] xPanels = new JPanel[]{new JPanel(), new JPanel(), new JPanel(), new JPanel(), new JPanel()};
 		JPanel[] yPanels = new JPanel[]{new JPanel(), new JPanel(), new JPanel(), new JPanel(), new JPanel()};
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -86,8 +86,6 @@ public class MapScreen extends JPanel
 		JPanel p = new JPanel();
 		add (p);
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
-		p.add (new MapPanel("images\\Grass.jpg"));
-		p.add (new MapPanel("images\\Grass.jpg"));
 	}
 	
 	public void paintComponent(Graphics g)
