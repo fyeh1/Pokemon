@@ -1,23 +1,21 @@
 package main;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.util.Random;
-
 
 public class BattleScene {
 
 	private PokeMain game;
 	private Font pokefont = new Font("pokesl1", Font.PLAIN, 18);
-	private Random r = new Random();
 
 	public boolean playerTurn;
 	public int elapsedTurns;
 	public boolean inMain = true;
-	public boolean inFight = false;
-	public boolean inItem = false;
+	public boolean inAttack = false;
+	public boolean inHeal = false;
 	public boolean inPokemon = false;
 	public boolean inRun = false;
 	public boolean playerWon = false;
@@ -26,21 +24,14 @@ public class BattleScene {
 	public int currentSelectionMainX;
 	public int currentSelectionMainY;
 
-	public int currentSelectionFight;
+	public int currentSelectionAttack;
 
 	public Pokemon playerPokemon;
 	public Pokemon enemyPokemon;
 
-	private Image BG = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/BG.png"));
-	private Image battleMainBG = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/Battle.png"));
-	private Image battleFightBG = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/Battle2.png"));
-	private Image arrow = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/Arrow.png"));
-
-	private Image statusPAR = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/StatusPAR.png"));
-	private Image statusBRN = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/StatusBRN.png"));
-	private Image statusPSN = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/StatusPSN.png"));
-	private Image statusSLP = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/StatusSLP.png"));
-	private Image statusFRZ = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/StatusFRZ.png"));
+	private Image BG = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images\\BG.png"));
+	private Image battleMainBG = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images\\Battle.png"));
+	private Image arrow = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images\\Arrow.png"));
 
 	public BattleScene(PokeMain pkmn, Pokemon[] playerparty, Pokemon wild) {
 		game = pkmn;
@@ -57,30 +48,31 @@ public class BattleScene {
 				+ enemyPokemon.getHP());
 		playerPokemon.reset();
 		enemyPokemon.reset();
+
 		currentSelectionMainX = 0;
 		currentSelectionMainY = 0;
 
-		currentSelectionFight = 0;
+		currentSelectionAttack = 0;
 
 		inMain = true;
 	}
 
-	public void Fight() {
+	public void Attack() {
 		inMain = false;
-		inFight = true;
-		System.out.println("Fight");
+		inAttack = true;
+		System.out.println("Attack");
 	}
 
-	public void Item() {
+	public void Heal() {
 		// inMain = false;
-		inItem = true;
-		System.out.println("Item");
+		inHeal = true;
+		System.out.println("Heal");
 	}
 
-	public void Pokemon() {
+	public void Dodge() {
 		// inMain = false;
 		inPokemon = true;
-		System.out.println("Pokemon");
+		System.out.println("Dodge");
 	}
 
 	public void giveEXP() {
@@ -153,10 +145,10 @@ public class BattleScene {
 		if (inMain == true) {
 			g.drawImage(battleMainBG, 0, 0, null);
 			g.drawString("Wild " + enemyPokemon.getName() + " Appeared!", 30, 260);
-			g.drawString("FIGHT", 290, 260);
-			g.drawString("PKMN", 400, 260);
-			g.drawString("ITEM", 290, 290);
-			g.drawString("RUN", 400, 290);
+			g.drawString("Attack", 290, 260);
+			g.drawString("Dodge", 400, 260);
+			g.drawString("Heal", 290, 290);
+			g.drawString("Run", 400, 290);
 			if (currentSelectionMainX == 0 && currentSelectionMainY == 0) {
 				g.drawImage(arrow, 274, 240, null);
 			} else if (currentSelectionMainX == 0 && currentSelectionMainY == 1) {
@@ -168,19 +160,31 @@ public class BattleScene {
 			}
 		}
 
-		// Battle Fight Interface
-		if (inFight == true) {
-
-			int i = playerPokemon.getLevel();
-
-			g.drawImage(battleFightBG, 0, 0, null);
-			g.drawString("Select a Move", 30, 260);
-			g.drawString(playerPokemon.move1, 200, 260);
-			g.drawString(playerPokemon.move2, 345, 260);
-			g.drawString(playerPokemon.move3, 200, 290);
-			g.drawString(playerPokemon.move4, 345, 290);
-
-			g.drawImage(arrow, 184, 240, null);
+		// Battle Attack Interface
+		if (inAttack == true) {
+			
+			ScrollGrid skillz = new ScrollGrid();
+			
+			int factor = playerPokemon.getLevel();
+			for(int x = 0; x<=factor; x++)
+			{
+				if(Move.name(x)!=null)
+					skillz.create(Move.name(x));
+			}
+			boolean finished = false;
+			while(finished ==false)
+			{
+				try {
+					wait(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				finished = skillz.getState();
+			}
+			
+			int result = skillz.getIndex();
+			
+			currentSelectionAttack = result;
 
 		}
 		/*

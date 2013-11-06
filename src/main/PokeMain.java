@@ -5,22 +5,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Random;
-import java.util.StringTokenizer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PokeMain extends JPanel implements KeyListener, ActionListener {
@@ -37,24 +33,20 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 	private Font pokefont = new Font("pokesl1", Font.PLAIN, 18);
 
-	private int offsetX = 0, offsetY = 0;
-	private int TILE_WIDTH_PIXELS = 32;
-	private int TILE_HEIGHT_PIXELS = 32;
-
 	// Player Variables
 
 	public String name = "Steven";
 
 	public int trainerID;
 
-	private Image player = tk.createImage(getClass().getResource("images/Player_Down.png"));
-	private Image playerUp = tk.createImage(getClass().getResource("images/Player_Up.png"));
-	private Image playerDown = tk.createImage(getClass().getResource("images/Player_Down.png"));
-	private Image playerLeft = tk.createImage(getClass().getResource("images/Player_Left.png"));
-	private Image playerRight = tk.createImage(getClass().getResource("images/Player_Right.png"));
+	private Image player = tk.createImage(getClass().getResource("images\\Player_Down.png"));
+	private Image playerUp = tk.createImage(getClass().getResource("images\\Player_Up.png"));
+	private Image playerDown = tk.createImage(getClass().getResource("images\\Player_Down.png"));
+	private Image playerLeft = tk.createImage(getClass().getResource("images\\Player_Left.png"));
+	private Image playerRight = tk.createImage(getClass().getResource("images\\Player_Right.png"));
 
 	public Player steven = new Player(10, 9, name, player);
-	private boolean running = false;
+
 	private int lastdir = 1;
 	private int movespritepixels = 0;
 	private boolean walking = false;
@@ -79,36 +71,28 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 	private int posX_tile; // Location of player in terms of rows
 	private int posY_tile; // Location of player in terms of columns
 	private boolean movable = true;
-	private static Random randGen = new Random();
-	private int stepscount = 0;
-	public int badges = 0;
-	public int money = 2000;
-	public long timePlayed = 0;
-	public long currentTime = 0;
+
 	// -----------------------------------------------------------------
 
 	// -----------------------------------------------------------------
 	// Map Variables
 	// -----------------------------------------------------------------
-	private Image[] tileset = new Image[1112];
-	private String currentMapName = "C:/Users/Perdre/Documents/GitHub/Fakemon/src/Data/Johto.map";
-	
+
 	private int[] currentMap0 = new int[20];
 	private int[] currentMap1 = new int[8];
 
-	private int mapTilesX;
-	private int mapTilesY;
+	private int mapTilesX = 20;
+	private int mapTilesY = 8;
 	private int x_coor = 0;
 	private int y_coor = 0;
-	private int tile_number = 0;
-	private boolean showmessagebox = false;
+
 	// -----------------------------------------------------------------
 
 	// -----------------------------------------------------------------
 	// NPC's
 	// -----------------------------------------------------------------
-	private Image healerI = tk.createImage(getClass().getResource("images/Healer_Down.png"));
-	private Image trainerI = tk.createImage(getClass().getResource("images/Trainer_Down.png"));
+	private Image healerI = tk.createImage(getClass().getResource("images\\Healer_Down.png"));
+	private Image trainerI = tk.createImage(getClass().getResource("images\\Trainer_Down.png"));
 
 	private NPC trainer = new NPC(83, 108, "Citizen", "Wanna battle? Sorry, the 'No' function failed to be implemented.", trainerI, null);
 	private NPC healer = new NPC(78, 104, "Citizen", "我只是想试试中文行不行……啥？你要治疗？", healerI, null);
@@ -117,22 +101,21 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 	// Message box
 
-	private Image messagebox = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Graphics/Pictures/Message_Text.png"));
+	private Image messagebox = Toolkit.getDefaultToolkit().getImage(getClass().getResource("images\\Message_Sign.png"));
 
 	// -----------------------------------------------------------------
 
 	// -----------------------------------------------------------------
 	// Battle Variables
 	// -----------------------------------------------------------------
-	private TrainerBattleScene trainerencounter;
+
+	// private TrainerBattleScene trainerencounter;
 	public Pokemon[] trainerparty = new Pokemon[3];
 	Pokemon playerPokemon1;
 	Pokemon playerPokemon2;
 	Pokemon playerPokemon3;
 	private BattleScene encounter;
 	public boolean inBattle = false;
-	private int r;
-	private int rndwildmodify = 15;
 
 	// -----------------------------------------------------------------
 
@@ -153,7 +136,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 	// -----------------------------------------------------------------
 
 	public void actionPerformed(ActionEvent e) {
-		currentTime = java.lang.System.currentTimeMillis();
 
 		// -----------------------------------------------------------------
 		// Battle Scene
@@ -187,9 +169,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 		steven.setCurrentX(posX_tile);
 		steven.setCurrentY(posY_tile);
-		// Random Encounter Variables
-		r = (int) ((5 - 1) * Math.random() + 1);
-		rndwildmodify = randGen.nextInt(22) + 11;
+
 		// Wild Pokemon Encounter Check
 		checkBattle();
 		// Can't walk outside of the Map Array
@@ -231,52 +211,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 					}
 				}
 			}
-			
-		}
-		// Movement Scrolling
-		if (walking == true) {
-			movespritepixels++;
-			if (up == true && movable_up == true) {
-				offsetY += 2;
-			}
-			if (down == true && movable_down == true) {
-				offsetY -= 2;
-			}
-			if (left == true && movable_left == true) {
-				offsetX += 2;
-			}
-			if (right == true && movable_right == true) {
-				offsetX -= 2;
-			}
-		}
-		// Movement Reset
-		if (movespritepixels >= 16) {
-			movespritepixels = 0;
-			walking = false;
-			if (up == true && movable_up == true)
-				posY_tile -= 1;
-			if (down == true && movable_down == true)
-				posY_tile += 1;
-			if (left == true && movable_left == true)
-				posX_tile -= 1;
-			if (right == true && movable_right == true)
-				posX_tile += 1;
-			up = false;
-			down = false;
-			left = false;
-			right = false;
-			footsprite = !footsprite;
-			if (playerPokemon1.getCurrentHP() <= 0) {
-				System.out.println(playerPokemon1.getName() + " has fainted.");
-				System.out.println(steven.getName() + " is all out of usable Pokemon.");
-				System.out.println(steven.getName() + " whited out.");
-				currentX_loc += 42 - posX_tile;
-				currentY_loc += 107 - posY_tile;
-				posX_tile = 42;
-				posY_tile = 107;
-				playerPokemon1.heal();
-				steven.setSprite(playerUp);
-			}
+
 		}
 
 		repaint();
@@ -286,6 +221,20 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 	// Paint Code
 	// -----------------------------------------------------------------
 
+	private void drawMap() {
+
+		ImageIcon grassIcon = new ImageIcon("images\\Grass.jpg");
+		JPanel panel = new JPanel(new GridLayout(mapTilesX, mapTilesY, 0, 0));
+
+		JLabel labels[] = new JLabel[(mapTilesX * mapTilesY)];
+
+		for (int i = 0; i < mapTilesX * mapTilesY; i++) {
+			labels[i] = new JLabel(grassIcon);
+			panel.add(labels[i]);
+		}
+		this.add(panel);
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -293,48 +242,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 		g2.setTransform(at);
 
 		if (inBattle == false) {
-			// Draw the Map
-			g2.setClip(new Rectangle(posX - 240, posY - 160, posX + 480, posY + 320));
-			g2.translate(offsetX - (currentX_loc * 32), offsetY - (currentY_loc * 32));
-			for (int y = 1; y <= mapTilesY; y++) {
-				for (int x = 1; x <= mapTilesX; x++) {
-					// Layer 0
-					if (currentMap0[tile_number] != 0) {
-						g.drawImage(tileset[currentMap0[tile_number] - 1], x_coor, y_coor, null);
-					}
-					// Layer 1
-					if (currentMap1[tile_number] != 0) {
-						g.drawImage(tileset[currentMap1[tile_number] - 1], x_coor, y_coor, null);
-					}
-
-					x_coor = x_coor + 32;
-					tile_number = tile_number + 1;
-				}
-				x_coor = 0;
-				y_coor = y_coor + 32;
-			}
-
-			tile_number = 0;
-			x_coor = 0;
-			y_coor = 0;
-			// NPC Sprites
-			for (int i = 0; i < currentMapNPC.length; i++) {
-				g.drawImage(currentMapNPC[i].getSprite(), currentMapNPC[i].getCurrentX() * TILE_WIDTH_PIXELS, currentMapNPC[i].getCurrentY()
-						* TILE_HEIGHT_PIXELS - 10, null);
-				/*
-				 * g.drawImage(currentMapNPC[i].getSprite(),
-				 * currentMapNPC[i].getCurrentX()*32,
-				 * currentMapNPC[i].getCurrentY()*32,
-				 * currentMapNPC[i].getWidth(), currentMapNPC[i].getHeight(),
-				 * currentMapNPC[i].getWidth(), currentMapNPC[i].getHeight(),
-				 * null);
-				 */
-			}
-
-			// Reset to 0,0
-			g2.translate(-offsetX, -offsetY);
-			// Player Sprites
-			g2.setTransform(at);
+			drawMap();
 			g.drawImage(steven.getSprite(), posX, posY, null);
 			g.setFont(pokefont);
 			g.setColor(Color.WHITE);
@@ -355,9 +263,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 		if (movable == true && inBattle == false) {
 			if (walking == false) {
 				if (keyCode == KeyEvent.VK_UP) {
-					crashTest(currentMap0);
-					crashTest(currentMap1);
-					collision = true;
 					if (movable_up == true) {
 						up = true;
 						walking = true;
@@ -365,9 +270,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 						steven.setSprite(playerUp);
 					}
 				} else if (keyCode == KeyEvent.VK_DOWN) {
-					crashTest(currentMap0);
-					crashTest(currentMap1);
-					collision = true;
 					if (movable_down == true) {
 						down = true;
 						walking = true;
@@ -375,9 +277,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 						steven.setSprite(playerDown);
 					}
 				} else if (keyCode == KeyEvent.VK_LEFT) {
-					crashTest(currentMap0);
-					crashTest(currentMap1);
-					collision = true;
 					if (movable_left == true) {
 						left = true;
 						walking = true;
@@ -385,9 +284,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 						steven.setSprite(playerLeft);
 					}
 				} else if (keyCode == KeyEvent.VK_RIGHT) {
-					crashTest(currentMap0);
-					crashTest(currentMap1);
-					collision = true;
 					if (movable_right == true) {
 						right = true;
 						walking = true;
@@ -432,13 +328,13 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 					}
 					if (keyCode == KeyEvent.VK_Z) {
 						if (encounter.currentSelectionMainX == 0 && encounter.currentSelectionMainY == 0) {
-							encounter.Fight();
+							encounter.Attack();
 						}
 						if (encounter.currentSelectionMainX == 1 && encounter.currentSelectionMainY == 0) {
-							encounter.Pokemon();
+							encounter.Dodge();
 						}
 						if (encounter.currentSelectionMainX == 0 && encounter.currentSelectionMainY == 1) {
-							encounter.Item();
+							encounter.Heal();
 						}
 						if (encounter.currentSelectionMainX == 1 && encounter.currentSelectionMainY == 1) {
 							encounter.Run();
@@ -447,24 +343,26 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 					}
 				}
 			}
-			if (encounter.inFight == true) {
+			if (encounter.inAttack == true) {
 				if (encounter.playerTurn == true) {
 
 					if (keyCode == KeyEvent.VK_Z) {
 
-						int i = encounter.currentSelectionFight;
+						int i = encounter.currentSelectionAttack;
 
-						System.out.println("Attack " + i + " Selected");
+						i = (i + 1) * 5;
+
+						System.out.println("Attack " + Move.name(i) + " Selected");
 
 						encounter.enemyPokemon.hit(encounter.playerPokemon, i);
 						System.out.println(encounter.enemyPokemon.getCurrentHP());
 
 						encounter.playerTurn = false;
 						encounter.inMain = true;
-						encounter.inFight = false;
+						encounter.inAttack = false;
 						encounter.currentSelectionMainX = 0;
 						encounter.currentSelectionMainY = 0;
-						encounter.currentSelectionFight = 0;
+						encounter.currentSelectionAttack = 0;
 					} else {
 						System.out.println("Can't Attack");
 					}
@@ -472,8 +370,8 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 					if (keyCode == KeyEvent.VK_X) {
 						encounter.currentSelectionMainX = 0;
 						encounter.currentSelectionMainY = 0;
-						encounter.currentSelectionFight = 0;
-						encounter.inFight = false;
+						encounter.currentSelectionAttack = 0;
+						encounter.inAttack = false;
 						encounter.inMain = true;
 
 					}
@@ -504,19 +402,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
-	}
-
-	public void crashTest(int[] map) {
-		// Wild Pokemon Grass
-		if (map[(posY_tile * mapTilesX) + posX_tile] == 17) {
-			stepscount++;
-		}
-	}
-
-	public void collision() {
-		if (collision == true) {
-			collision = false;
-		}
 	}
 
 	public void showMessageBox(Graphics g) {
@@ -574,7 +459,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 	public void checkBattle() {
 		if (noBattle == false) {
-			if (stepscount >= rndwildmodify) {
+			if (Math.random() < 0.25) {
 
 				int lvlcurrent = trainerparty[0].getLevel() + (int) (Math.random() * 2) - (int) (Math.random() * 2);
 
@@ -584,7 +469,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 				inBattle = true;
 				encounter = new BattleScene(this, trainerparty, wildPokemon);
-				stepscount = 0;
+
 				try {
 					Thread.sleep(500);
 				} catch (InterruptedException e) {
@@ -599,8 +484,7 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 
 	public void startgame() {
 
-		loadTileSet();
-		loadMap(currentMapName);
+		drawMap();
 
 		name = "Steven";
 		steven.setName(name);
@@ -620,15 +504,6 @@ public class PokeMain extends JPanel implements KeyListener, ActionListener {
 		player = playerDown;
 
 		movable = true;
-		timePlayed = java.lang.System.currentTimeMillis();
-	}
-
-	public void loadTileSet() {
-
-		for (int i = 0; i < tileset.length; i++) {
-			tileset[i] = tk.createImage(getClass().getResource("images/Grass"));
-		}
-
 	}
 
 	public static void wait(int n) {

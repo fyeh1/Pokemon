@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class MessageBox {
 
-	private Image msgbox = Toolkit.getDefaultToolkit().createImage("Graphics/Pictures/Message_Text.png");
+	private Image msgbox = Toolkit.getDefaultToolkit().createImage("images\\Message_Text.png");
 	private String text;
 	//private int lines;
 	private int style;

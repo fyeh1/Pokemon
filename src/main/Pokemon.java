@@ -176,11 +176,11 @@ public class Pokemon {
 	}
 
 	public Image getBackSprite() {
-		return (Toolkit.getDefaultToolkit().createImage("images/" + name + "_back.jpg"));
+		return (Toolkit.getDefaultToolkit().createImage("images\\" + name + "_back.jpg"));
 	}
 
 	public Image getFrontSprite() {
-		return (Toolkit.getDefaultToolkit().createImage("images/" + name + ".jpg"));
+		return (Toolkit.getDefaultToolkit().createImage("images\\" + name + ".jpg"));
 	}
 
 	public static Pokemon newPokemon(int lvl) {

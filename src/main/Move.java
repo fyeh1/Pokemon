@@ -1,6 +1,5 @@
 package main;
 
-
 public class Move {
 
 	public static String name;
@@ -21,7 +20,7 @@ public class Move {
 
 	private static void reset() {
 		name = "";
-		lvl = 0; 
+		lvl = 0;
 		atk = 0;
 		cc = 0;
 		hpC = 0;
@@ -63,8 +62,9 @@ public class Move {
 			FuryFire();
 		else if (i == 40)
 			CrouchSwipe();
-		else if (i == 42)
-			BlazeIt();
+		/*
+		 * else if (i == 42) BlazeIt();
+		 */
 		else if (i == 45)
 			FieldBlessing();
 		else if (i == 50)
@@ -94,9 +94,8 @@ public class Move {
 
 		return update();
 	}
-	
-	public static String name(int i)
-	{
+
+	public static String name(int i) {
 		if (i == 5)
 			return "Flail";
 		else if (i == 10)
@@ -113,8 +112,9 @@ public class Move {
 			return "Fury Fire";
 		else if (i == 40)
 			return "Crouch Swipe";
-		else if (i == 42)
-			return "Blaze It";
+		/*
+		 * else if (i == 42) return "Blaze It";
+		 */
 		else if (i == 45)
 			return "Field Blessing";
 		else if (i == 50)

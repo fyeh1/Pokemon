@@ -1,3 +1,5 @@
+/*
+
 package main;
 import java.awt.*;
 import javax.swing.*;
@@ -359,11 +361,8 @@ public class TrainerBattleScene {
 				g.drawImage(arrow, 329, 270, null);
 			}
     	}
-    	/*if (inRun == true) {
-    		g.drawString("Got away successfully!", 30, 260);
-    	}
-    	if (pokemonfainted == true) {
-    		g.drawString(game.gold.getName() + " is all out of usable Pokemon!", 30, 260);
-    	}*/
+
     }
 }
+
+*/
